@@ -3,9 +3,6 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/indigo-web/indigo"
-	"github.com/indigo-web/indigo/router/inbuilt"
-	"github.com/vanng822/r2router"
 	"io"
 	"io/ioutil"
 	"log"
@@ -13,7 +10,12 @@ import (
 	"os"
 	"runtime"
 	"strconv"
+	"strings"
 	"time"
+
+	"github.com/indigo-web/indigo"
+	"github.com/indigo-web/indigo/router/inbuilt"
+	"github.com/vanng822/r2router"
 
 	"github.com/abemedia/go-don"
 	_ "github.com/abemedia/go-don/encoding/text"
@@ -48,7 +50,7 @@ import (
 	vulcan "github.com/mailgun/route"
 	"github.com/naoina/denco"
 	"github.com/nbari/violetear"
-	"github.com/qiangxue/fasthttp-routing"
+	routing "github.com/qiangxue/fasthttp-routing"
 	"github.com/rcrowley/go-tigertonic"
 	"github.com/savsgio/atreugo/v11"
 	"github.com/teambition/gear"
@@ -111,7 +113,7 @@ func main() {
 		fmt.Printf("HeapSys: %d\n", mem.HeapSys/u)
 	}()
 
-	switch webFramework {
+	switch removeStarsFromWebFramework(webFramework) {
 	case "default":
 		startDefaultMux()
 	case "atreugo":
@@ -207,6 +209,12 @@ func main() {
 		fmt.Println("------------- Unknown framework given!!! Check libs.sh -------------")
 		fmt.Println("--------------------------------------------------------------------")
 	}
+}
+
+func removeStarsFromWebFramework(webFramework string) string {
+	framework := strings.Split(webFramework, "-")
+
+	return framework[0]
 }
 
 // default mux
